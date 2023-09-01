@@ -1,0 +1,27 @@
+{
+  "name": "kanboard",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@quasar/extras": "^1.16.6",
+    "pinia": "^2.1.6",
+    "quasar": "^2.12.5",
+    "vue": "^3.3.4"
+  },
+  "devDependencies": {
+    "@quasar/vite-plugin": "^1.4.1",
+    "@types/node": "^20.5.7",
+    "@vitejs/plugin-vue": "^4.2.3",
+    "@vue/compiler-sfc": "^3.3.4",
+    "sass": "^1.66.1",
+    "typescript": "^5.0.2",
+    "vite": "^4.4.5",
+    "vue-tsc": "^1.8.5"
+  }
+}
