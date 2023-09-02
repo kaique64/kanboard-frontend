@@ -1,0 +1,1 @@
+export type ContentTypeEnum = null | 'application/json' | 'multipart/form-data';
