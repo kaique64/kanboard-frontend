@@ -5,7 +5,7 @@
 			size="3em"
 		></q-spinner>
 	</div>
-  <div class="row justify-center items-start full-width">
+  <div class="row justify-start items-start full-width">
     <Kanban group-name="kanboard" />
   </div>
 </template>

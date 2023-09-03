@@ -1,4 +1,5 @@
 <template>
+  <div class="row items-start justify-center">
     <Board v-for="board in boards" :board="board" :key="board.id">
       <template #content>
         <div v-if="boardIsLoading" class="row items-center justify-center">
@@ -25,6 +26,18 @@
         </Container>
       </template>
     </Board>
+    <div class="q-ma-md" style="max-height: 25px;">
+      <Button
+        id="add-board-btn"
+        label="Add new board"
+        icon="mdi-plus"
+        flat
+        no-caps
+        class="text-capitalize"
+        color="blue"
+      ></Button>
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -35,6 +48,7 @@ import Board from '../../board/component/Board.vue'
 import Card from '../../../common/component/card/Card.vue'
 import BoardStore from '../../board/store/BoardStore';
 import Task from '../../task/component/Task.vue'
+import Button from '../../../common/component/button/Button.vue';
 
 interface IProps {
     groupName: string;
