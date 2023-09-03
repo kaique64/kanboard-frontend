@@ -21,14 +21,11 @@
         </div>
         <slot name="content"></slot>
     </q-card>
-    <AddDialog 
-        :model-value="addDialog" 
+    <AddTaskDialog 
+        :model-value="addTaskDialog" 
         :title="`Add task`"
         @close="closeAddTaskDialog" 
-        @cancel="(resetForm: () => void) => {
-            closeAddTaskDialog();
-            resetForm();
-        }"
+        @cancel="closeAddTaskDialog"
         :board-id="board.id"
     />
 </template>
@@ -36,7 +33,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import Button from '../../../common/component/button/Button.vue';
-import AddDialog from '../../kanban/component/AddDialog.vue';
+import AddTaskDialog from '../../task/component/AddTaskDialog.vue';
 import { BoardDTO } from '../types/dtos/BoardDTO';
 
 interface IProps {
@@ -45,13 +42,13 @@ interface IProps {
 
 const props = defineProps<IProps>();
 const board = ref(props.board);
-const addDialog = ref(false);
+const addTaskDialog = ref(false);
 
 function openAddTaskDialog() {
-  addDialog.value = true;
+  addTaskDialog.value = true;
 }
 
 function closeAddTaskDialog() {
-  addDialog.value = false;
+  addTaskDialog.value = false;
 }
 </script>
