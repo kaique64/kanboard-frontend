@@ -1,7 +1,14 @@
 <template>
     <Board v-for="board in boards" :board="board" :key="board.id">
       <template #content>
+        <div v-if="boardIsLoading" class="row items-center justify-center">
+          <q-spinner 
+            color="primary"
+            size="3em"
+          />
+        </div>
         <Container 
+          v-else  
           :group-name="groupName" 
           @drag-start="dragAndDropService.handleDragStart(board.id, $event)" 
           @drop="dragAndDropService.handleDrop(board.id, $event)"
@@ -9,12 +16,7 @@
           :drop-placeholder="{ className: 'placeholder' }"
         >
           <Draggable v-for="task in board.tasks" :key="task.id">
-            <q-spinner 
-              v-if="boardIsLoading"
-              color="primary"
-              size="3em"
-            />
-            <Card v-else class="q-my-sm rounded-borders" style="background-color: rgb(234, 234, 234);">
+            <Card class="q-my-sm rounded-borders" style="background-color: rgb(234, 234, 234);">
                 <template #content>
                   <Task :task="task" />
                 </template>
