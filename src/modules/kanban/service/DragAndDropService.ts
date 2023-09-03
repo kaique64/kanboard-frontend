@@ -1,42 +1,47 @@
 import { ref, computed } from 'vue';
 import BoardStore from '../../board/store/BoardStore';
+import KanbanStore from '../../kanban/store/KanbanStore';
+import { TaskDTO } from '../../task/dtos/TaskDTO';
+import { DragResultDTO } from '../types/dtos/DragResultDTO';
 
 export function DragAndDropService() {
+    const boardStore = BoardStore();
+    const kanbanStore = KanbanStore();
+    const boards = computed(() => boardStore.getBoards());
     const draggingCard = ref({
         boardId: -1,
         index: -1,
-        data: {}
+        data: {} as TaskDTO
     });
-    const boardStore = BoardStore();
-    const boards = computed(() => boardStore.getBoards());
   
-    function handleDragStart(boardId: number, dragResult) {
+    function handleDragStart(boardId: number, dragResult: DragResultDTO) {
         const { payload, isSource } = dragResult;
     
         if (isSource) {
-        draggingCard.value = {
-            boardId,
-            index: payload.index,
-            data: {
-            ...boards.value.find(i => i.id === boardId)?.tasks[payload.index]
+            draggingCard.value = {
+                boardId,
+                index: payload.index,
+                data: {
+                    ...boards.value.find(i => i.id === boardId)?.tasks[payload.index] as TaskDTO
+                }
             }
-        }
         }
     }
     
-    function handleDrop(boardId: number, dropResult) {
+    async function handleDrop(boardId: number, dropResult: any) {
         const { removedIndex, addedIndex } = dropResult;
     
         if (boardId === draggingCard.value.boardId && removedIndex === addedIndex) {
-        return;
+            return;
         }
-    
+        
         if (removedIndex !== null) {
             boards.value.find((i) => i.id === boardId)?.tasks.splice(removedIndex, 1);
         }
-    
+        
         if (addedIndex !== null) {
             boards.value.find((i) => i.id === boardId)?.tasks.splice(addedIndex, 0, draggingCard.value.data);
+            await kanbanStore.updateTaskBoard(draggingCard.value.data.id, boardId);
         }
     }
     return {
