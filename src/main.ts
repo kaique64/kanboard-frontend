@@ -2,7 +2,7 @@
 import { createPinia } from 'pinia';
 import { createApp } from 'vue';
 import { Buffer } from 'buffer';
-import { AppFullscreen, Loading, LocalStorage, Notify, Quasar } from 'quasar';
+import { AppFullscreen, Loading, LocalStorage, Notify, Quasar, useQuasar } from 'quasar';
 
 import '@quasar/extras/material-icons/material-icons.css';
 
@@ -54,7 +54,8 @@ const run = () => {
   });
 
   const config = {
-    plugins: { Notify, LocalStorage, AppFullscreen, Loading }
+    plugins: { Notify, LocalStorage, AppFullscreen, Loading },  
+    extends: ['material-icons']
   };
 
   app.use(pinia)

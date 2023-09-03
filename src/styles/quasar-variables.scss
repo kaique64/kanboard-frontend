@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
 .q-field--outlined .q-field__control {
     border-radius: 10px !important;
     padding: 0 15px;
@@ -10,4 +12,8 @@
 
 .grabbing * {
     cursor: grabbing !important;
+}
+
+* {
+    font-family: 'Poppins', sans-serif;
 }
