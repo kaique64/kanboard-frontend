@@ -48,9 +48,9 @@ async function updateTask(formValues: TaskFormDTO) {
     description: formValues.description,
   }
 
-  const taskCreated = await taskService.updateTask(task, taskId.value, boardId.value);
+  const taskUpdated = await taskService.updateTask(task, taskId.value, boardId.value);
 
-  if (taskCreated) {
+  if (taskUpdated) {
     $q.notify({
         message: 'Task updated successfully!',
         type: 'positive',

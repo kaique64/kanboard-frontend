@@ -40,8 +40,7 @@
                 flat 
                 label="Cancel" 
                 @click="() => {
-                    $emit('cancel');
-                    resetForm();
+                    $emit('cancel', resetForm);
                 }"
             ></Button>
         </div>
