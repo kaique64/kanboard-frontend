@@ -6,10 +6,17 @@
         <div class="row justify-between">
             <span class="text-bold text-h6">{{ name }}</span>
             <div>
-                <Button id="action-button" flat icon="mdi-dots-horizontal" />
-                <q-menu anchor="bottom start">
-                    <Button id="add-task-button" no-caps icon="mdi-plus" label="Add new task"></Button>
-                </q-menu>
+                <Button 
+                    id="action-button" 
+                    flat 
+                    color="blue" 
+                    icon="mdi-plus" 
+                    @click="$emit('add')"
+                >
+                    <template #default>
+                        <q-tooltip>Add task</q-tooltip>
+                    </template>
+                </Button>
             </div>
         </div>
         <slot name="content"></slot>
@@ -24,6 +31,7 @@ interface IProps {
     name: string;
 }
 
+defineEmits(['add'])
 const props = defineProps<IProps>();
 const name = ref(props.name);
 </script>
