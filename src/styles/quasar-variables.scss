@@ -1,3 +1,9 @@
+.q-field--outlined .q-field__control {
+    border-radius: 10px !important;
+    padding: 0 15px;
+    background: #fff;
+}
+
 .grabbing * {
     cursor: grabbing !important;
 }

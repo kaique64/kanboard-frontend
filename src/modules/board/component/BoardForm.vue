@@ -7,7 +7,6 @@
             class="q-mx-md q-my-md" 
             label="Name" 
             dense
-            filled
             outlined
             hide-bottom-space
             :rules="[(val) => required(val, 'Name')]"

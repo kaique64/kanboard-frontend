@@ -7,7 +7,6 @@
             class="q-mx-md q-my-md" 
             label="Name" 
             dense
-            filled
             outlined
             hide-bottom-space
             :rules="[(val) => required(val, 'Name')]"
@@ -18,7 +17,6 @@
             type="textarea" 
             label="Description" 
             dense
-            filled 
             outlined
             style="max-height: 15rem;"
             :input-style="{ resize: 'none', height: '75px' }"
