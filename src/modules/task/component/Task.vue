@@ -1,8 +1,10 @@
 <template>
     <span class="text-bold">{{task.name}}</span>
-    <div v-if="task.description" class="column q-mt-sm">
+    <div v-if="task.description" class="column q-mt-sm" style="max-width: 325px; width: 100%; white-space: normal;">
         <span class="text-bold">Description:</span>
         {{task.description}}
+        <span>
+        </span>
     </div>
     <div class="row justify-start items-center q-mt-xs">
         <Button 
@@ -84,3 +86,9 @@ function closeDeleteTaskDialog() {
   deleteTaskDialog.value = false;
 }
 </script>
+
+<style>
+.my-card{
+  width: 100%;
+  max-width: 250px;
+}</style>
