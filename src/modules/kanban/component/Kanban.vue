@@ -1,104 +1,111 @@
 <template>
-  <div v-if="boardIsLoading" class="flex items-center justify-center full-width window-height loading">
-    <q-spinner
-      color="primary"
-      size="3em"
-    ></q-spinner>
-  </div>
-  <div v-else class="row items-start justify-center">
-    <Board v-for="board in boards" :board="board" :key="board.id">
-      <template #content>
-        <Button
-          id="action-button" 
-          flat 
-          color="grey-10"
-          icon="mdi-dots-horizontal" 
-        >
-        <template #default>
-            <q-menu anchor="top right" self="top left">
-              <q-list style="min-width: 100px">
-                <q-item 
-                  v-close-popup 
-                >
-                  <Button
-                    id="update-board-btn" 
-                    flat
-                    color="blue"
-                    no-caps
-                    size="md"
-                    label="Update board"
-                    icon="mdi-pencil-outline"
-                    @click="() => {
-                      boardSelected = board;
-                      updateBoardDialog = true
-                    }"
-                  />
-                </q-item>
-                <q-item 
-                  v-close-popup 
-                >
-                  <Button
-                    id="delete-board-btn" 
-                    flat
-                    color="red"
-                    size="md"
-                    no-caps
-                    label="Delete board"
-                    icon="mdi-trash-can-outline"
-                    @click="() => {
-                      boardSelected = board;
-                      deleteBoardDialog = true
-                    }"
-                  />
-                </q-item>
-              </q-list>
-            </q-menu>
-            <q-tooltip class="text-capitalize">Board actions</q-tooltip>
+  <q-page-container style="height: 100%; padding-top: 100px;" class="flex items-center justify-center q-pr-lg q-pl-lg bg-white">
+    <q-page class="row items-start justify-center bg-white full-height" style="overflow-x: auto; white-space: nowrap;">
+      <div v-if="boardIsLoading" class="flex items-center justify-center full-width window-height loading">
+        <q-spinner
+          color="primary"
+          size="3em"
+        ></q-spinner>
+      </div>
+      <div v-else class="row items-start justify-start" style="max-width: 120rem; flex-wrap: nowrap; flex-direction: row;">
+        <Board v-for="board in boards" :board="board" :key="board.id">
+          <template #content>
+            <Button
+              id="action-button" 
+              flat 
+              color="grey-10"
+              icon="mdi-dots-horizontal" 
+            >
+            <template #default>
+                <q-menu anchor="top right" self="top left">
+                  <q-list style="min-width: 100px">
+                    <q-item 
+                      v-close-popup 
+                    >
+                      <Button
+                        id="update-board-btn" 
+                        flat
+                        color="blue"
+                        no-caps
+                        size="md"
+                        label="Update board"
+                        icon="mdi-pencil-outline"
+                        @click="() => {
+                          boardSelected = board;
+                          updateBoardDialog = true
+                        }"
+                      />
+                    </q-item>
+                    <q-item 
+                      v-close-popup 
+                    >
+                      <Button
+                        id="delete-board-btn" 
+                        flat
+                        color="red"
+                        size="md"
+                        no-caps
+                        label="Delete board"
+                        icon="mdi-trash-can-outline"
+                        @click="() => {
+                          boardSelected = board;
+                          deleteBoardDialog = true
+                        }"
+                      />
+                    </q-item>
+                  </q-list>
+                </q-menu>
+                <q-tooltip class="text-capitalize">Board actions</q-tooltip>
+              </template>
+            </Button>
+            <div v-if="boardIsLoading" class="row items-center justify-center">
+              <q-spinner 
+                color="primary"
+                size="3em"
+              />
+            </div>
+            <Container 
+              v-else  
+              :group-name="groupName" 
+              @drag-start="($event: any) => {
+                changeToGrabbingCursor();
+                dragAndDropService.handleDragStart(board.id, $event)
+              }" 
+              @drop="($event: any) => {
+                changeToGrabCursor();
+                dragAndDropService.handleDrop(board.id, $event)
+              }"
+              :get-child-payload="getChildPayload"
+              :drop-placeholder="{ showOnTop: true, animationDuration: '0.2s' }"
+            >
+              <Draggable v-for="task in board.tasks" :key="task.id">
+                <Card class="q-my-sm rounded-borders">
+                  <template #content>
+                      <Task :task="task" />
+                    </template>
+                </Card>
+              </Draggable>
+            </Container>
           </template>
-        </Button>
-        <div v-if="boardIsLoading" class="row items-center justify-center">
-          <q-spinner 
-            color="primary"
-            size="3em"
-          />
+        </Board>
+        <div class="q-ma-md" style="max-height: 25px;">
+          <Button
+            id="add-board-btn"
+            icon="mdi-plus"
+            flat
+            no-caps
+            class="text-capitalize"
+            color="grey-8" 
+            @click="() => addBoardDialog = true"
+          >
+            <template #default>
+              <q-tooltip>Add new board</q-tooltip>
+            </template>
+          </Button>
         </div>
-        <Container 
-          v-else  
-          :group-name="groupName" 
-          @drag-start="($event: any) => {
-            changeToGrabbingCursor();
-            dragAndDropService.handleDragStart(board.id, $event)
-          }" 
-          @drop="($event: any) => {
-            changeToGrabCursor();
-            dragAndDropService.handleDrop(board.id, $event)
-          }"
-          :get-child-payload="getChildPayload"
-          :drop-placeholder="customDropPlaceholder"
-        >
-          <Draggable v-for="task in board.tasks" :key="task.id">
-            <Card class="q-my-sm rounded-borders">
-              <template #content>
-                  <Task :task="task" />
-                </template>
-            </Card>
-          </Draggable>
-        </Container>
-      </template>
-    </Board>
-    <div class="q-ma-md" style="max-height: 25px;">
-      <Button
-        id="add-board-btn"
-        label="Add new board"
-        icon="mdi-plus"
-        flat
-        no-caps
-        class="text-capitalize"
-        color="grey-8" 
-        @click="() => addBoardDialog = true"
-      ></Button>
-    </div>
-  </div>
+      </div>
+    </q-page>
+  </q-page-container>
   <AddBoardDialog
     :model-value="addBoardDialog"
     :title="`Add board`"
