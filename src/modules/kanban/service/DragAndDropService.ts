@@ -29,6 +29,7 @@ export function DragAndDropService() {
     }
     
     async function handleDrop(boardId: number, dropResult: any) {
+        kanbanStore.setLoading(true);
         const { removedIndex, addedIndex } = dropResult;
     
         if (boardId === draggingCard.value.boardId && removedIndex === addedIndex) {
@@ -43,7 +44,10 @@ export function DragAndDropService() {
             boards.value.find((i) => i.id === boardId)?.tasks.splice(addedIndex, 0, draggingCard.value.data);
             await kanbanStore.updateTaskBoard(draggingCard.value.data.id, boardId);
         }
+        
+        kanbanStore.setLoading(false);
     }
+
     return {
         handleDragStart,
         handleDrop
