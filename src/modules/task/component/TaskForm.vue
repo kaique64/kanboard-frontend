@@ -52,6 +52,7 @@ import { ref, computed } from 'vue';
 import TaskStore from '../store/TaskStore';
 import Button from '../../../common/component/button/Button.vue';
 import { TaskFormDTO } from '../types/dtos/TaskFormDTO';
+import { resetForm } from '../../../common/util/ResetForm';
 
 interface IProps {
     taskForm?: TaskFormDTO;
@@ -70,12 +71,6 @@ const taskStore = TaskStore();
 const taskFormIsLoading = computed(() => taskStore.getLoading());
 
 const required = (val: string, field: 'Name' | 'Description') => (val && val.length > 0) || `${field} must be filled in.`
-
-function resetForm() {
-    for (const formKey in form.value) {
-        form.value[formKey] = '';
-    }
-}
 </script>
 
 <style scoped>
