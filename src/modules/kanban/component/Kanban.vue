@@ -74,7 +74,7 @@
             dragAndDropService.handleDrop(board.id, $event)
           }"
           :get-child-payload="getChildPayload"
-          :drop-placeholder="{ className: 'placeholder' }"
+          :drop-placeholder="customDropPlaceholder"
         >
           <Draggable v-for="task in board.tasks" :key="task.id">
             <Card class="q-my-sm rounded-borders">
@@ -156,6 +156,13 @@ const boardSelected: Ref<BoardDTO> = ref({
     tasks: []
 });
 
+function customDropPlaceholder() {
+  return {
+    showOnTop: true, 
+    animationDuration: '0.2s', 
+  };
+}
+
 function getChildPayload(index: number) {
   return {
     index
@@ -189,3 +196,9 @@ onBeforeMount(async () => {
 	boardStore.getBoards().length === 0 && await boardStore.fetchBoard();
 });
 </script>
+
+<style scoped>
+.placeholder {
+  background-color: black;
+}
+</style>
