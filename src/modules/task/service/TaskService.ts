@@ -1,10 +1,10 @@
 import TaskStore from "../store/TaskStore";
-import { TaskCreateDTO } from "../types/dtos/TaskCreateDTO";
+import { TaskFormDTO } from "../types/dtos/TaskFormDTO";
 
 export const TaskService = () => {
     const taskStore = TaskStore();
 
-    async function createTask(taskDTO: TaskCreateDTO, boardId: number) {
+    async function createTask(taskDTO: TaskFormDTO, boardId: number) {
         taskStore.setLoading(true);
         
         const task = await taskStore.createTask(taskDTO, boardId);

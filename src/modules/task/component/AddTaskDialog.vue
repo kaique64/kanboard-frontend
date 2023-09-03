@@ -14,7 +14,7 @@ import DialogTemplate from '../../../common/component/dialog/DialogTemplate.vue'
 import { TaskService } from '../../task/service/TaskService';
 import { useQuasar } from 'quasar';
 import TaskForm from '../../task/component/TaskForm.vue';
-import { TaskCreateDTO } from '../../task/types/dtos/TaskCreateDTO';
+import { TaskFormDTO } from '../../task/types/dtos/TaskFormDTO';
 
 interface IProps {
     modelValue: any;
@@ -29,12 +29,12 @@ const boardId = ref(props.boardId);
 const $q = useQuasar();
 const taskService = TaskService();
 
-async function handleAddTask(formValues: TaskCreateDTO) {
+async function handleAddTask(formValues: TaskFormDTO) {
     await addTask(formValues);
     emit('close');
 }
 
-async function addTask(formValues: TaskCreateDTO) {
+async function addTask(formValues: TaskFormDTO) {
   const task = {
     name: formValues.name,
     description: formValues.description,
@@ -52,4 +52,4 @@ async function addTask(formValues: TaskCreateDTO) {
   }
 }
 
-</script>
+</script>../types/dtos/TaskFormDTO

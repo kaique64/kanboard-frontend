@@ -1,20 +1,19 @@
 <template>
-    <span class="text-bold">{{name}}</span>
-    <div v-if="description" class="column q-mt-sm">
+    <span class="text-bold">{{task.name}}</span>
+    <div v-if="task.description" class="column q-mt-sm">
         <span class="text-bold">Description:</span>
-        {{description}}
+        {{task.description}}
     </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue';
+import { TaskDTO } from '../types/dtos/TaskDTO';
 
 interface IProps {
-    name: string;
-    description?: string;
+    task: TaskDTO
 }
 
 const props = defineProps<IProps>();
-const name = ref(props.name);
-const description = ref(props.description);
+const task = ref(props.task);
 </script>

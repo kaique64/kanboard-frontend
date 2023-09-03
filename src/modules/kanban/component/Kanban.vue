@@ -11,7 +11,7 @@
           <Draggable v-for="task in board.tasks" :key="task.id">
             <Card class="q-my-sm rounded-borders" style="background-color: rgb(234, 234, 234);">
                 <template #content>
-                  <Task :name="task.name" :description="task.description" />
+                  <Task :task="task" />
                   <div class="row justify-start items-center q-mt-xs">
                     <Button id="update-task" flat size="md" color="blue" class="q-mr-xs" icon="mdi-pencil-outline">
                       <template #default>

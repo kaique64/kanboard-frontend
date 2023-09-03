@@ -1,4 +1,4 @@
-export interface TaskCreateDTO {
+export interface TaskFormDTO {
     name: string;
     description: string;
 }
