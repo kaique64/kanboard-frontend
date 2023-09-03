@@ -5,9 +5,9 @@
 			size="3em"
 		></q-spinner>
 	</div>
-  <div class="row justify-start items-start full-width">
-    <Kanban group-name="kanboard" />
-  </div>
+	<div class="row justify-start items-start full-width">
+		<Kanban group-name="kanboard" />
+	</div>
 </template>
 <script setup lang="ts">
 import { computed, watch } from 'vue';

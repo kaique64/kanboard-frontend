@@ -1,5 +1,11 @@
 <template>
-  <div class="row items-start justify-center">
+  <div v-if="boardIsLoading" class="flex items-center justify-center full-width window-height loading">
+    <q-spinner
+      color="primary"
+      size="3em"
+    ></q-spinner>
+  </div>
+  <div v-else class="row items-start justify-center">
     <Board v-for="board in boards" :board="board" :key="board.id">
       <template #content>
         <div v-if="boardIsLoading" class="row items-center justify-center">
@@ -24,18 +30,32 @@
             </Card>
           </Draggable>
         </Container>
+        <Button
+          id="update-board-btn" 
+          flat
+          color="blue"
+          icon="mdi-pencil-outline"
+          @click="() => {
+            boardSelected = board;
+            updateBoardDialog = true
+          }"
+        >
+          <template #default>
+            <q-tooltip class="text-capitalize">Update board</q-tooltip>
+          </template>
+        </Button>
       </template>
     </Board>
     <div class="q-ma-md" style="max-height: 25px;">
       <Button
-        id="add-board-btn"
-        label="Add new board"
-        icon="mdi-plus"
-        flat
-        no-caps
-        class="text-capitalize"
-        color="blue"
-        @click="() => addBoardDialog = true"
+      id="add-board-btn"
+      label="Add new board"
+      icon="mdi-plus"
+      flat
+      no-caps
+      class="text-capitalize"
+      color="blue"
+      @click="() => addBoardDialog = true"
       ></Button>
     </div>
   </div>
@@ -44,6 +64,13 @@
     :title="`Add board`"
     @close="() => addBoardDialog = false" 
     @cancel="() => addBoardDialog = false"
+  />
+  <UpdateBoardDialog 
+    :model-value="updateBoardDialog" 
+    :title="`Update board`"
+    :board-form="boardSelected"
+    @close="() => updateBoardDialog = false" 
+    @cancel="() => updateBoardDialog = false"
   />
 </template>
 
@@ -57,6 +84,7 @@ import BoardStore from '../../board/store/BoardStore';
 import Task from '../../task/component/Task.vue'
 import Button from '../../../common/component/button/Button.vue';
 import AddBoardDialog from '../../board/component/AddBoardDialog.vue';
+import UpdateBoardDialog from '../../board/component/UpdateBoardDialog.vue';
 
 interface IProps {
     groupName: string;
@@ -69,6 +97,8 @@ const boards = computed(() => boardStore.getBoards());
 const boardIsLoading = computed(() => boardStore.getLoading());
 const dragAndDropService = DragAndDropService();
 const addBoardDialog = ref(false);
+const updateBoardDialog = ref(false);
+const boardSelected = ref({ name: '' });
 
 function getChildPayload(index: number) {
   return {

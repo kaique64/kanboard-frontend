@@ -44,7 +44,7 @@ async function addTask(formValues: BoardFormDTO) {
 
   if (boardCreated) {
     $q.notify({
-        message: 'Task created successfully!',
+        message: 'Board created successfully!',
         type: 'positive',
         color: 'green-5',
         position: 'top-right'
