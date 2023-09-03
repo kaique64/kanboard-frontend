@@ -25,6 +25,7 @@
                     flat
                     color="blue"
                     no-caps
+                    size="md"
                     label="Update board"
                     icon="mdi-pencil-outline"
                     @click="() => {
@@ -40,6 +41,7 @@
                     id="delete-board-btn" 
                     flat
                     color="red"
+                    size="md"
                     no-caps
                     label="Delete board"
                     icon="mdi-trash-can-outline"
@@ -86,14 +88,14 @@
     </Board>
     <div class="q-ma-md" style="max-height: 25px;">
       <Button
-      id="add-board-btn"
-      label="Add new board"
-      icon="mdi-plus"
-      flat
-      no-caps
-      class="text-capitalize"
-      color="grey-8" 
-      @click="() => addBoardDialog = true"
+        id="add-board-btn"
+        label="Add new board"
+        icon="mdi-plus"
+        flat
+        no-caps
+        class="text-capitalize"
+        color="grey-8" 
+        @click="() => addBoardDialog = true"
       ></Button>
     </div>
   </div>
