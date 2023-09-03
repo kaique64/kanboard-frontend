@@ -1,14 +1,16 @@
 <template>
-	<Header />
-	<div v-if="kanbanIsLoading" class="flex items-center justify-center full-width window-height loading">
-		<q-spinner
-			color="primary"
-			size="3em"
-		></q-spinner>
-	</div>
-	<div class="row justify-center items-center full-width window-height">
-		<Kanban group-name="kanboard" />
-	</div>
+	<q-layout view="hHh LPR lFf" style="min-height: 60vh;">
+		<Header />
+		<div v-if="kanbanIsLoading" class="flex items-center justify-center full-width window-height loading">
+			<q-spinner
+				color="primary"
+				size="3em"
+			></q-spinner>
+		</div>
+		<div class="row justify-center items-center full-width window-height">
+			<Kanban group-name="kanboard" />
+		</div>
+	</q-layout>
 </template>
 <script setup lang="ts">
 import { computed, watch } from 'vue';
