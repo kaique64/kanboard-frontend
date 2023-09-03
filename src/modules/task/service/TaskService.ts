@@ -14,7 +14,18 @@ export const TaskService = () => {
         return task;
     }
 
+    async function updateTask(taskDTO: TaskFormDTO, taskId: number, boardId: number) {
+        taskStore.setLoading(true);
+        
+        const task = await taskStore.updateTask(taskDTO, taskId, boardId);
+        
+        taskStore.setLoading(false);
+        
+        return task;
+    }
+
     return {
-        createTask
+        createTask,
+        updateTask
     }
 }

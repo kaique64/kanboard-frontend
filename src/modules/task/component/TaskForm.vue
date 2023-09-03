@@ -1,7 +1,6 @@
 <template>
     <q-form @submit="() => {
-        $emit('submit', form);
-        resetForm();
+        $emit('submit', form, resetForm);
     }">
         <q-input 
             v-model="form.name" 
@@ -30,7 +29,7 @@
                 color="primary" 
                 class="q-mr-sm" 
                 flat 
-                label="Add" 
+                :label="submitButtonLabel" 
                 type="submit"
                 :loading="taskFormIsLoading"
             ></Button>
@@ -53,12 +52,21 @@
 import { ref, computed } from 'vue';
 import TaskStore from '../store/TaskStore';
 import Button from '../../../common/component/button/Button.vue';
+import { TaskFormDTO } from '../types/dtos/TaskFormDTO';
+
+interface IProps {
+    taskForm?: TaskFormDTO;
+    submitButtonLabel: string
+}
+
+const props = defineProps<IProps>();
 
 defineEmits(['cancel', 'submit'])
-const form = ref({
+const form = ref(props.taskForm ? props.taskForm : {
     name: '',
     description: ''
 })
+const submitButtonLabel = ref(props.submitButtonLabel);
 const taskStore = TaskStore();
 const taskFormIsLoading = computed(() => taskStore.getLoading());
 

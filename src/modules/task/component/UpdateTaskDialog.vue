@@ -3,9 +3,10 @@
         <DialogTemplate height="50vh" width="75vw" :title="title" close-btn :click-close="() => $emit('close')">
             <template #content>
                 <TaskForm 
+                    :task-form="task"
                     @cancel="$emit('cancel')" 
-                    @submit="handleAddTask" 
-                    submit-button-label="Add"
+                    @submit="handleUpdateTask" 
+                    submit-button-label="Update"
                 />
             </template>
         </DialogTemplate>
@@ -23,38 +24,40 @@ import { TaskFormDTO } from '../../task/types/dtos/TaskFormDTO';
 interface IProps {
     modelValue: any;
     title: string;
+    taskId: number;
+    task: TaskFormDTO;
     boardId: number;
 }
 
 const emit = defineEmits(['close', 'cancel', 'onAdd'])
 const props = defineProps<IProps>()
 const title = ref(props.title);
+const taskId = ref(props.taskId);
 const boardId = ref(props.boardId);
 const $q = useQuasar();
 const taskService = TaskService();
 
-async function handleAddTask(formValues: TaskFormDTO, resetForm: () => void) {
-    await addTask(formValues);
+async function handleUpdateTask(formValues: TaskFormDTO) {
+    await updateTask(formValues);
     emit('close');
-    resetForm();
 }
 
-async function addTask(formValues: TaskFormDTO) {
+async function updateTask(formValues: TaskFormDTO) {
   const task = {
     name: formValues.name,
     description: formValues.description,
   }
 
-  const taskCreated = await taskService.createTask(task, boardId.value);
+  const taskCreated = await taskService.updateTask(task, taskId.value, boardId.value);
 
   if (taskCreated) {
     $q.notify({
-        message: 'Task created successfully!',
+        message: 'Task updated successfully!',
         type: 'positive',
         color: 'green-5',
         position: 'top-right'
-    })
+    });
   }
 }
 
-</script>../types/dtos/TaskFormDTO
+</script>

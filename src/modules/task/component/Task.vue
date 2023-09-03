@@ -4,16 +4,63 @@
         <span class="text-bold">Description:</span>
         {{task.description}}
     </div>
+    <div class="row justify-start items-center q-mt-xs">
+        <Button 
+            id="update-task" 
+            flat 
+            size="md" 
+            color="blue" 
+            class="q-mr-xs" 
+            icon="mdi-pencil-outline" 
+            @click="openUpdateTaskDialog"
+        >
+            <template #default>
+            <q-tooltip class="text-capitalize">Update task</q-tooltip>
+            </template>
+        </Button>
+        <Button 
+            id="delete-task" 
+            flat 
+            size="md" 
+            color="red" 
+            icon="mdi-trash-can-outline"
+        >
+            <template #default>
+            <q-tooltip class="text-capitalize">Delete task</q-tooltip>
+            </template>
+        </Button>
+    </div>
+    <UpdateTaskDialog 
+        :model-value="updateTaskDialog" 
+        :title="`Add task`"
+        @close="closeUpdateTaskDialog" 
+        @cancel="closeUpdateTaskDialog"
+        :board-id="task.boardId"
+        :task="task"
+        :task-id="task.id"
+    />
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue';
 import { TaskDTO } from '../types/dtos/TaskDTO';
+import UpdateTaskDialog from './UpdateTaskDialog.vue';
+import Button from '../../../common/component/button/Button.vue';
+import { TaskFormDTO } from '../types/dtos/TaskFormDTO';
 
 interface IProps {
-    task: TaskDTO
+    task: TaskDTO;
 }
 
 const props = defineProps<IProps>();
-const task = ref(props.task);
+const task = ref(props.task as TaskFormDTO);
+const updateTaskDialog = ref(false);
+
+function openUpdateTaskDialog() {
+  updateTaskDialog.value = true;
+}
+
+function closeUpdateTaskDialog() {
+  updateTaskDialog.value = false;
+}
 </script>
