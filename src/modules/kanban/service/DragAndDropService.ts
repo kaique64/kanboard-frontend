@@ -31,8 +31,9 @@ export function DragAndDropService() {
     async function handleDrop(boardId: number, dropResult: any) {
         kanbanStore.setLoading(true);
         const { removedIndex, addedIndex } = dropResult;
-    
+        
         if (boardId === draggingCard.value.boardId && removedIndex === addedIndex) {
+            kanbanStore.setLoading(false);
             return;
         }
         
