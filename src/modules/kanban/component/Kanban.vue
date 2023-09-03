@@ -1,5 +1,5 @@
 <template>
-    <Board v-for="board in boards" :name="board.name" :key="board.id">
+    <Board v-for="board in boards" :board="board" :key="board.id">
       <template #content>
         <Container 
           :group-name="groupName" 
