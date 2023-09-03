@@ -17,11 +17,11 @@ import { useQuasar } from 'quasar';
 import DialogTemplate from '../../../common/component/dialog/DialogTemplate.vue'
 import { BoardFormDTO } from '../types/dtos/BoardFormDTO';
 import BoardForm from './/BoardForm.vue';
+import { BoardService } from '../service/BoardService';
 
 interface IProps {
     modelValue: any;
     title: string;
-    boardId: number;
 }
 
 const emit = defineEmits(['close', 'cancel', 'onAdd']);

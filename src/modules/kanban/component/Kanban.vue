@@ -35,9 +35,16 @@
         no-caps
         class="text-capitalize"
         color="blue"
+        @click="() => addBoardDialog = true"
       ></Button>
     </div>
   </div>
+  <AddBoardDialog
+    :model-value="addBoardDialog"
+    :title="`Add board`"
+    @close="() => addBoardDialog = false" 
+    @cancel="() => addBoardDialog = false"
+  />
 </template>
 
 <script setup lang="ts">
@@ -49,6 +56,7 @@ import Card from '../../../common/component/card/Card.vue'
 import BoardStore from '../../board/store/BoardStore';
 import Task from '../../task/component/Task.vue'
 import Button from '../../../common/component/button/Button.vue';
+import AddBoardDialog from '../../board/component/AddBoardDialog.vue';
 
 interface IProps {
     groupName: string;
@@ -60,6 +68,7 @@ const boardStore = BoardStore();
 const boards = computed(() => boardStore.getBoards());
 const boardIsLoading = computed(() => boardStore.getLoading());
 const dragAndDropService = DragAndDropService();
+const addBoardDialog = ref(false);
 
 function getChildPayload(index: number) {
   return {
