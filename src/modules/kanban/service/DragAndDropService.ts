@@ -1,7 +1,7 @@
 import { ref, computed } from 'vue';
 import BoardStore from '../../board/store/BoardStore';
 import KanbanStore from '../../kanban/store/KanbanStore';
-import { TaskDTO } from '../../task/dtos/TaskDTO';
+import { TaskDTO } from '../../task/types/dtos/TaskDTO';
 import { DragResultDTO } from '../types/dtos/DragResultDTO';
 
 export function DragAndDropService() {

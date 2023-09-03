@@ -1,4 +1,4 @@
-import { TaskDTO } from "../../task/dtos/TaskDTO";
+import { TaskDTO } from "../../../task/types/dtos/TaskDTO";
 
 export interface BoardDTO {
     id: number,

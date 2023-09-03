@@ -62,4 +62,3 @@ onBeforeMount(async () => {
 	boardStore.getBoards().length === 0 && await boardStore.fetchBoard();
 });
 </script>
-../../task/dtos/BoardDTO

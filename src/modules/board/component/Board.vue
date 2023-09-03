@@ -37,7 +37,7 @@
 import { ref } from 'vue';
 import Button from '../../../common/component/button/Button.vue';
 import AddDialog from '../../kanban/component/AddDialog.vue';
-import { BoardDTO } from '../dtos/BoardDTO';
+import { BoardDTO } from '../types/dtos/BoardDTO';
 
 interface IProps {
     board: BoardDTO;

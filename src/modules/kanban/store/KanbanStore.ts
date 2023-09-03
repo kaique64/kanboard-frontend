@@ -1,6 +1,6 @@
 import { ref } from "vue";
 import { defineStore } from "pinia";
-import { TaskDTO } from "../../task/dtos/TaskDTO";
+import { TaskDTO } from "../../task/types/dtos/TaskDTO";
 import { RestService } from "../../../common/service/integration/RestService";
 
 const KanbanStore = defineStore('KanbanStore', () => {

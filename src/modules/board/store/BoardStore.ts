@@ -1,6 +1,6 @@
 import { Ref, ref } from "vue";
 import { defineStore } from "pinia";
-import { BoardDTO } from "../dtos/BoardDTO";
+import { BoardDTO } from "../types/dtos/BoardDTO";
 import { RestService } from "../../../common/service/integration/RestService";
 
 const BoardStore = defineStore('BoardStore', () => {
