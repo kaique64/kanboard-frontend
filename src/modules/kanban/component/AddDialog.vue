@@ -1,8 +1,8 @@
 <template>
     <q-dialog v-model="props.modelValue" persistent>
-        <DialogTemplate class="text-capitalize" height="50vh" width="75vw" :title="title" close-btn :click-close="() => $emit('close')">
+        <DialogTemplate height="50vh" width="75vw" :title="title" close-btn :click-close="() => $emit('close')">
             <template #content>
-                <q-form @submit="addTask">
+                <q-form @submit="handleAddTask">
                     <q-input 
                         v-model="form.name" 
                         class="q-mx-md q-my-md" 
@@ -10,6 +10,8 @@
                         dense
                         filled
                         outlined
+                        hide-bottom-space
+                        :rules="[(val) => (val && val.length > 0) || 'Name must be filled in.']"
                     />
                     <q-input 
                         v-model="form.description" 
@@ -23,8 +25,23 @@
                         :input-style="{ resize: 'none', height: '75px' }"
                     />
                     <div class="row justify-end q-mx-md q-my-md">
-                        <Button id="submit-btn" color="primary" class="q-mr-sm" flat label="Add" @click="handleAddTask"></Button>
-                        <Button id="submit-btn" color="primary" flat label="Cancel" @click="$emit('cancel', resetForm)"></Button>
+                        <Button 
+                            id="submit-btn" 
+                            color="primary" 
+                            class="q-mr-sm" 
+                            flat 
+                            label="Add" 
+                            type="submit"
+                            :loading="taskFormIsLoading"
+                        ></Button>
+                        <Button 
+                            v-if="!taskFormIsLoading" 
+                            id="submit-btn"
+                            color="primary" 
+                            flat 
+                            label="Cancel" 
+                            @click="$emit('cancel', resetForm)"
+                        ></Button>
                     </div>
                 </q-form>
             </template>
@@ -33,9 +50,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import DialogTemplate from '../../../common/component/dialog/DialogTemplate.vue'
 import Button from '../../../common/component/button/Button.vue';
+import { TaskService } from '../../task/service/TaskService';
+import { useQuasar } from 'quasar';
+import TaskStore from '../../task/store/TaskStore';
 
 interface IProps {
     modelValue: any;
@@ -47,6 +67,10 @@ const emit = defineEmits(['close', 'cancel', 'onAdd'])
 const props = defineProps<IProps>()
 const title = ref(props.title);
 const boardId = ref(props.boardId);
+const $q = useQuasar();
+const taskStore = TaskStore();
+const taskService = TaskService();
+const taskFormIsLoading = computed(() => taskStore.getLoading());
 const form = ref({
     name: '',
     description: '',
@@ -54,14 +78,25 @@ const form = ref({
 
 async function handleAddTask() {
     await addTask();
-    emit('cancel', resetForm);
+    resetForm();
+    emit('close');
 }
 
 async function addTask() {
   const task = {
     name: form.value.name,
     description: form.value.description,
-    boardId: boardId.value
+  }
+
+  const taskCreated = await taskService.createTask(task, boardId.value);
+
+  if (taskCreated) {
+    $q.notify({
+        message: 'Task created successfully!',
+        type: 'positive',
+        color: 'green-5',
+        position: 'top-right'
+    })
   }
 }
 

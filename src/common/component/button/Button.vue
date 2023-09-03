@@ -5,6 +5,7 @@
         :label="props.label"
         :size="props.size"
         :loading="props.loading"
+        :type="props.type"
         :ripple="false"
     >
         <slot name="default"></slot>
