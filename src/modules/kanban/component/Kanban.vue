@@ -8,6 +8,52 @@
   <div v-else class="row items-start justify-center">
     <Board v-for="board in boards" :board="board" :key="board.id">
       <template #content>
+        <Button
+          id="action-button" 
+          flat 
+          color="grey-10"
+          icon="mdi-dots-horizontal" 
+        >
+        <template #default>
+            <q-menu anchor="top right" self="top left">
+              <q-list style="min-width: 100px">
+                <q-item 
+                  v-close-popup 
+                >
+                  <Button
+                    id="update-board-btn" 
+                    flat
+                    color="blue"
+                    no-caps
+                    label="Update board"
+                    icon="mdi-pencil-outline"
+                    @click="() => {
+                      boardSelected = board;
+                      updateBoardDialog = true
+                    }"
+                  />
+                </q-item>
+                <q-item 
+                  v-close-popup 
+                >
+                  <Button
+                    id="delete-board-btn" 
+                    flat
+                    color="red"
+                    no-caps
+                    label="Delete board"
+                    icon="mdi-trash-can-outline"
+                    @click="() => {
+                      boardSelected = board;
+                      deleteBoardDialog = true
+                    }"
+                  />
+                </q-item>
+              </q-list>
+            </q-menu>
+            <q-tooltip class="text-capitalize">Board actions</q-tooltip>
+          </template>
+        </Button>
         <div v-if="boardIsLoading" class="row items-center justify-center">
           <q-spinner 
             color="primary"
@@ -24,40 +70,12 @@
         >
           <Draggable v-for="task in board.tasks" :key="task.id">
             <Card class="q-my-sm rounded-borders" style="background-color: rgb(234, 234, 234);">
-                <template #content>
+              <template #content>
                   <Task :task="task" />
                 </template>
             </Card>
           </Draggable>
         </Container>
-        <Button
-          id="update-board-btn" 
-          flat
-          color="blue"
-          icon="mdi-pencil-outline"
-          @click="() => {
-            boardSelected = board;
-            updateBoardDialog = true
-          }"
-        >
-          <template #default>
-            <q-tooltip class="text-capitalize">Update board</q-tooltip>
-          </template>
-        </Button>
-        <Button
-          id="delete-board-btn" 
-          flat
-          color="red"
-          icon="mdi-trash-can-outline"
-          @click="() => {
-            boardSelected = board;
-            deleteBoardDialog = true
-          }"
-        >
-          <template #default>
-            <q-tooltip class="text-capitalize">Delete board</q-tooltip>
-          </template>
-        </Button>
       </template>
     </Board>
     <div class="q-ma-md" style="max-height: 25px;">
@@ -68,7 +86,7 @@
       flat
       no-caps
       class="text-capitalize"
-      color="blue"
+      color="grey-8" 
       @click="() => addBoardDialog = true"
       ></Button>
     </div>
@@ -108,6 +126,7 @@ import AddBoardDialog from '../../board/component/AddBoardDialog.vue';
 import UpdateBoardDialog from '../../board/component/UpdateBoardDialog.vue';
 import DeleteBoardDialog from '../../board/component/DeleteBoardDialog.vue';
 import { BoardDTO } from '../../board/types/dtos/BoardDTO';
+import AddTaskDialog from '../../task/component/AddTaskDialog.vue';
 
 interface IProps {
     groupName: string;
@@ -122,6 +141,7 @@ const dragAndDropService = DragAndDropService();
 const addBoardDialog = ref(false);
 const updateBoardDialog = ref(false);
 const deleteBoardDialog = ref(false);
+const addTaskDialog = ref(false);
 const boardSelected: Ref<BoardDTO> = ref({
     id: 0,
     created_at: new Date(),

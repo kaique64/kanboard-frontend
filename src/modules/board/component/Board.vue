@@ -5,21 +5,17 @@
     >
         <div class="row justify-between">
             <span class="text-bold text-h6">{{ board.name }}</span>
-            <div>
-                <Button 
-                    id="action-button" 
-                    flat 
-                    color="blue" 
-                    icon="mdi-plus" 
-                    @click="openAddTaskDialog"
-                >
-                    <template #default>
-                        <q-tooltip>Add task</q-tooltip>
-                    </template>
-                </Button>
-            </div>
         </div>
         <slot name="content"></slot>
+        <Button 
+            id="action-button" 
+            flat 
+            no-caps
+            label="Add new task"
+            color="grey-8" 
+            icon="mdi-plus" 
+            @click="openAddTaskDialog"
+        />
     </q-card>
     <AddTaskDialog 
         :model-value="addTaskDialog" 

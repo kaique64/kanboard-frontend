@@ -13,7 +13,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import DialogTemplate from '../../../common/component/dialog/DialogTemplate.vue'
 import { TaskService } from '../../task/service/TaskService';
 import { useQuasar } from 'quasar';
@@ -29,7 +29,7 @@ interface IProps {
 const emit = defineEmits(['close', 'cancel', 'onAdd'])
 const props = defineProps<IProps>()
 const title = ref(props.title);
-const boardId = ref(props.boardId);
+const boardId = computed(() => props.boardId);
 const $q = useQuasar();
 const taskService = TaskService();
 
@@ -56,5 +56,4 @@ async function addTask(formValues: TaskFormDTO) {
     })
   }
 }
-
-</script>../types/dtos/TaskFormDTO
+</script>
