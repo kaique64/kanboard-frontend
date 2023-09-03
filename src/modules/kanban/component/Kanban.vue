@@ -9,7 +9,12 @@
           :drop-placeholder="{ className: 'placeholder' }"
         >
           <Draggable v-for="task in board.tasks" :key="task.id">
-            <Card class="q-my-sm rounded-borders" style="background-color: rgb(234, 234, 234);">
+            <q-spinner 
+              v-if="boardIsLoading"
+              color="primary"
+              size="3em"
+            />
+            <Card v-else class="q-my-sm rounded-borders" style="background-color: rgb(234, 234, 234);">
                 <template #content>
                   <Task :task="task" />
                 </template>
@@ -37,6 +42,7 @@ const props = defineProps<IProps>();
 const groupName = ref(props.groupName);
 const boardStore = BoardStore();
 const boards = computed(() => boardStore.getBoards());
+const boardIsLoading = computed(() => boardStore.getLoading());
 const dragAndDropService = DragAndDropService();
 
 function getChildPayload(index: number) {

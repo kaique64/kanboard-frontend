@@ -6,9 +6,13 @@ import { RestService } from "../../../common/service/integration/RestService";
 const BoardStore = defineStore('BoardStore', () => {
     const restService = new RestService();
     const boards: Ref<BoardDTO[]> = ref([]);
+    const loading = ref(false);
 
     const setBoards = (boardsDTO: BoardDTO[]) => boards.value = boardsDTO;
     const getBoards = () => boards.value;
+
+    const setLoading = (loadingValue: boolean) => loading.value = loadingValue;
+    const getLoading = () => loading.value;
 
     async function fetchBoard() {
         const boardsData: BoardDTO[] | null = await restService.executeGet<BoardDTO[]>({
@@ -24,6 +28,8 @@ const BoardStore = defineStore('BoardStore', () => {
         fetchBoard,
         setBoards,
         getBoards,
+        setLoading,
+        getLoading
     }
 });
 
