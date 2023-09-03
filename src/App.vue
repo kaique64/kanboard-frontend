@@ -1,11 +1,12 @@
 <template>
+	<Header />
 	<div v-if="kanbanIsLoading" class="flex items-center justify-center full-width window-height loading">
 		<q-spinner
 			color="primary"
 			size="3em"
 		></q-spinner>
 	</div>
-	<div class="row justify-start items-start full-width">
+	<div class="row justify-center items-center full-width window-height">
 		<Kanban group-name="kanboard" />
 	</div>
 </template>
@@ -13,6 +14,7 @@
 import { computed, watch } from 'vue';
 import Kanban from './modules/kanban/component/Kanban.vue';
 import KanbanStore from './modules/kanban/store/KanbanStore';
+import Header from './common/component/header/Header.vue';
 
 const kanbanStore = KanbanStore();
 const kanbanIsLoading = computed(() => kanbanStore.getLoading());
@@ -21,12 +23,8 @@ watch(kanbanIsLoading, (newValue) => {
 	kanbanStore.setLoading(newValue);
 })
 </script>
-<style scoped>
-.placeholder {
-  background: rgba(0, 0, 0);
-  border-radius: 0.4rem;
-}
 
+<style scoped>
 .loading {
 	position: absolute;
 	top: 0;
