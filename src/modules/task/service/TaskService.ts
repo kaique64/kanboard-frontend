@@ -32,8 +32,22 @@ export const TaskService = () => {
         return task;
     }
 
+    async function deleteTask(taskId: number) {
+        taskStore.setLoading(true);
+        boardStore.setLoading(true);
+        
+        const task = await taskStore.deleteTask(taskId);
+        await boardStore.fetchBoard();
+
+        boardStore.setLoading(false);
+        taskStore.setLoading(false);
+        
+        return task;
+    }
+
     return {
         createTask,
-        updateTask
+        updateTask,
+        deleteTask,
     }
 }

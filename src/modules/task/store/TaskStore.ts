@@ -29,9 +29,18 @@ const TaskStore = defineStore('TaskStore', () => {
         return task
     }
 
+    async function deleteTask(taskId: number) {
+        const task = await restService.executeDelete<TaskDTO>({
+            url: `/task/${taskId}`,
+        });
+
+        return task
+    }
+
     return {
         createTask,
         updateTask,
+        deleteTask,
         setLoading,
         getLoading
     }
