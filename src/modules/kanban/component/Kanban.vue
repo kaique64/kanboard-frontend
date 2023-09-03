@@ -44,6 +44,20 @@
             <q-tooltip class="text-capitalize">Update board</q-tooltip>
           </template>
         </Button>
+        <Button
+          id="delete-board-btn" 
+          flat
+          color="red"
+          icon="mdi-trash-can-outline"
+          @click="() => {
+            boardSelected = board;
+            deleteBoardDialog = true
+          }"
+        >
+          <template #default>
+            <q-tooltip class="text-capitalize">Delete board</q-tooltip>
+          </template>
+        </Button>
       </template>
     </Board>
     <div class="q-ma-md" style="max-height: 25px;">
@@ -72,10 +86,17 @@
     @close="() => updateBoardDialog = false" 
     @cancel="() => updateBoardDialog = false"
   />
+  <DeleteBoardDialog 
+    :model-value="deleteBoardDialog" 
+    :title="`Delete board`"
+    :board-id="boardSelected.id"
+    @close="() => deleteBoardDialog = false" 
+    @cancel="() => deleteBoardDialog = false"
+  />
 </template>
 
 <script setup lang="ts">
-import { ref, onBeforeMount, computed } from 'vue';
+import { Ref, ref, onBeforeMount, computed } from 'vue';
 import { Container, Draggable } from "vue3-smooth-dnd";
 import { DragAndDropService } from '../service/DragAndDropService'
 import Board from '../../board/component/Board.vue'
@@ -85,6 +106,8 @@ import Task from '../../task/component/Task.vue'
 import Button from '../../../common/component/button/Button.vue';
 import AddBoardDialog from '../../board/component/AddBoardDialog.vue';
 import UpdateBoardDialog from '../../board/component/UpdateBoardDialog.vue';
+import DeleteBoardDialog from '../../board/component/DeleteBoardDialog.vue';
+import { BoardDTO } from '../../board/types/dtos/BoardDTO';
 
 interface IProps {
     groupName: string;
@@ -98,7 +121,14 @@ const boardIsLoading = computed(() => boardStore.getLoading());
 const dragAndDropService = DragAndDropService();
 const addBoardDialog = ref(false);
 const updateBoardDialog = ref(false);
-const boardSelected = ref({ name: '' });
+const deleteBoardDialog = ref(false);
+const boardSelected: Ref<BoardDTO> = ref({
+    id: 0,
+    created_at: new Date(),
+    updated_at: new Date(),
+    name: '',
+    tasks: []
+});
 
 function getChildPayload(index: number) {
   return {
