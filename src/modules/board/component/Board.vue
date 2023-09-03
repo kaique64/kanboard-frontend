@@ -1,7 +1,7 @@
 <template>
     <q-card 
         class="q-ma-md q-pa-md" 
-        style="min-width: 23rem;"
+        style="min-width: 23rem; background-color: rgb(234, 234, 234);"
     >
         <div class="row justify-between">
             <span class="text-bold text-h6">{{ board.name }}</span>

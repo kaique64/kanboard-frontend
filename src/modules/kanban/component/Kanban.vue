@@ -63,13 +63,19 @@
         <Container 
           v-else  
           :group-name="groupName" 
-          @drag-start="dragAndDropService.handleDragStart(board.id, $event)" 
-          @drop="dragAndDropService.handleDrop(board.id, $event)"
+          @drag-start="($event: any) => {
+            changeToGrabbingCursor();
+            dragAndDropService.handleDragStart(board.id, $event)
+          }" 
+          @drop="($event: any) => {
+            changeToGrabCursor();
+            dragAndDropService.handleDrop(board.id, $event)
+          }"
           :get-child-payload="getChildPayload"
           :drop-placeholder="{ className: 'placeholder' }"
         >
           <Draggable v-for="task in board.tasks" :key="task.id">
-            <Card class="q-my-sm rounded-borders" style="background-color: rgb(234, 234, 234);">
+            <Card class="q-my-sm rounded-borders">
               <template #content>
                   <Task :task="task" />
                 </template>
@@ -126,7 +132,6 @@ import AddBoardDialog from '../../board/component/AddBoardDialog.vue';
 import UpdateBoardDialog from '../../board/component/UpdateBoardDialog.vue';
 import DeleteBoardDialog from '../../board/component/DeleteBoardDialog.vue';
 import { BoardDTO } from '../../board/types/dtos/BoardDTO';
-import AddTaskDialog from '../../task/component/AddTaskDialog.vue';
 
 interface IProps {
     groupName: string;
@@ -141,7 +146,6 @@ const dragAndDropService = DragAndDropService();
 const addBoardDialog = ref(false);
 const updateBoardDialog = ref(false);
 const deleteBoardDialog = ref(false);
-const addTaskDialog = ref(false);
 const boardSelected: Ref<BoardDTO> = ref({
     id: 0,
     created_at: new Date(),
@@ -155,6 +159,29 @@ function getChildPayload(index: number) {
     index
   }
 }
+
+function changeToGrabbingCursor() {
+  const className = 'grabbing';
+  const html = document.getElementsByTagName('html').item(0);
+  if (html && new RegExp(className).test(html.className) === false) {
+      html.className += ' ' + className; // use a space in case there are other classNames
+  }
+}
+
+function changeToGrabCursor() {
+  const className = 'grabbing';
+  const html = document.getElementsByTagName('html').item(0);
+  if (html && new RegExp(className).test(html.className) === true) {
+      // Remove className with the added space (from setClassToHTMLElement)
+      html.className = html.className.replace(
+          new RegExp(' ' + className),
+          ''
+      );
+      // Remove className without added space (just in case)
+      html.className = html.className.replace(new RegExp(className), '');
+  }
+}
+
 
 onBeforeMount(async () => {
 	boardStore.getBoards().length === 0 && await boardStore.fetchBoard();
