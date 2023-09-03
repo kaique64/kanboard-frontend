@@ -12,6 +12,18 @@
             <Card class="q-my-sm rounded-borders" style="background-color: rgb(234, 234, 234);">
                 <template #content>
                   <Task :name="task.name" :description="task.description" />
+                  <div class="row justify-start items-center q-mt-xs">
+                    <Button id="update-task" flat size="md" color="blue" class="q-mr-xs" icon="mdi-pencil-outline">
+                      <template #default>
+                        <q-tooltip class="text-capitalize">Update task</q-tooltip>
+                      </template>
+                    </Button>
+                    <Button id="delete-task" flat size="md" color="red" icon="mdi-trash-can-outline">
+                      <template #default>
+                        <q-tooltip class="text-capitalize">Delete task</q-tooltip>
+                      </template>
+                    </Button>
+                  </div>
                 </template>
             </Card>
           </Draggable>
@@ -28,6 +40,7 @@ import Board from '../../board/component/Board.vue'
 import Card from '../../../common/component/card/Card.vue'
 import BoardStore from '../../board/store/BoardStore';
 import Task from '../../task/component/Task.vue'
+import Button from '../../../common/component/button/Button.vue';
 
 interface IProps {
     groupName: string;
