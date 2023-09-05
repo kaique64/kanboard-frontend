@@ -6,7 +6,16 @@
         <span>
             <q-icon name="mdi-bell" size="sm" class="q-mr-sm" style="cursor: pointer;">
                 <template #default>
-                    <q-tooltip>Notification</q-tooltip>
+                    <q-menu anchor="bottom end" self="bottom left">
+                        <q-list>
+                            <q-item 
+                            v-close-popup 
+                            class="flex items-center justify-center"
+                            >
+                                Notifications
+                            </q-item>
+                        </q-list>
+                    </q-menu>
                 </template>
             </q-icon>
         </span>
