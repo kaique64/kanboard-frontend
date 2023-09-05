@@ -1,8 +1,7 @@
 <template>
     <q-header class="row items-center justify-between q-px-xl" style="height: 70px">
         <div>
-            <q-icon name="mdi-account-circle" size="md" class="q-mr-sm"></q-icon>
-            Kaique Costa
+            <img src="/logo.svg" height="35" />
         </div>
         <span>
             <q-icon name="mdi-bell" size="sm" class="q-mr-sm" style="cursor: pointer;">
