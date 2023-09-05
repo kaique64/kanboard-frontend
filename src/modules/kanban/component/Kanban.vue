@@ -1,13 +1,13 @@
 <template>
   <q-page-container style="height: 100%; padding-top: 100px;" class="flex items-center justify-center q-pr-lg q-pl-lg bg-white">
-    <q-page class="row items-start justify-center bg-white full-height" style="overflow-x: auto; white-space: nowrap;">
+    <q-page class="row items-start justify-center bg-white full-height">
       <div v-if="boardIsLoading" class="flex items-center justify-center full-width window-height loading">
         <q-spinner
           color="primary"
           size="3em"
         ></q-spinner>
       </div>
-      <div v-else class="row items-start justify-start" style="max-width: 120rem; flex-wrap: nowrap; flex-direction: row;">
+      <div v-else class="row no-wrap items-start justify-start" style="overflow-x: auto; width: 90vw;  min-height: 50rem;">
         <Board v-for="board in boards" :board="board" :key="board.id">
           <template #content>
             <Button
@@ -88,21 +88,18 @@
             </Container>
           </template>
         </Board>
-        <div class="q-ma-md" style="max-height: 25px;">
-          <Button
-            id="add-board-btn"
-            icon="mdi-plus"
-            flat
-            no-caps
-            class="text-capitalize"
-            color="grey-8" 
-            @click="() => addBoardDialog = true"
-          >
-            <template #default>
-              <q-tooltip>Add new board</q-tooltip>
-            </template>
-          </Button>
-        </div>
+      </div>
+      <div class="q-ma-md" style="max-height: 25px;">
+        <Button
+          id="add-board-btn"
+          icon="mdi-plus"
+          label="Add new board"
+          flat
+          no-caps
+          class="text-capitalize"
+          color="grey-8" 
+          @click="() => addBoardDialog = true"
+        />
       </div>
     </q-page>
   </q-page-container>
@@ -205,7 +202,12 @@ onBeforeMount(async () => {
 </script>
 
 <style scoped>
-.placeholder {
-  background-color: black;
+.scrollable-content {
+  width: 100%; 
+  overflow-x: auto; 
+  white-space: nowrap;
+  flex-direction: row !important; 
+  flex-wrap: nowrap !important; 
+  max-width: 2000px;
 }
 </style>
