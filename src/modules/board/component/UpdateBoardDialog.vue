@@ -1,6 +1,6 @@
 <template>
     <q-dialog v-model="props.modelValue" persistent>
-        <DialogTemplate height="50vh" width="25vw" :title="title" close-btn :click-close="() => $emit('close')">
+        <DialogTemplate height="50vh" width="40vw" :title="title" close-btn :click-close="() => $emit('close')">
             <template #content>
                 <BoardForm 
                     :board-form="boardForm"

@@ -1,6 +1,6 @@
 <template>
     <q-dialog v-model="props.modelValue" persistent>
-        <DialogTemplate height="50vh" width="25vw" :title="title" close-btn :click-close="() => $emit('close')">
+        <DialogTemplate height="50vh" width="40vw" :title="title" close-btn :click-close="() => $emit('close')">
             <template #content>
                 <div class="column q-px-md q-mt-md">
                     <span class="text-bold text-subtitle1">Are you will delete this board?</span>
