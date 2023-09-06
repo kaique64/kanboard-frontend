@@ -49,6 +49,13 @@ async function addTask(formValues: BoardFormDTO) {
         color: 'green-5',
         position: 'top-right'
     })
+  } else {
+    $q.notify({
+        message: 'Internal server error!',
+        type: 'negative',
+        color: 'red-5',
+        position: 'top-right'
+    });
   }
 }
 </script>
