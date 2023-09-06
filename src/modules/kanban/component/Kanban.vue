@@ -20,7 +20,11 @@
         ></q-spinner>
       </div>
       <div v-else class="row no-wrap items-start justify-start" style="overflow-x: auto; width: 90vw;  min-height: 50rem;">
-        <Board v-for="board in boards" :board="board" :key="board.id">
+        <div v-if="boards.length === 0" class="row full-width items-center justify-center" color="grey-6">
+          <q-icon size="sm" name="mdi-alert" class="q-px-md" color="grey-6"></q-icon>
+          You don't have any board registered
+        </div>
+        <Board v-else v-for="board in boards" :board="board" :key="board.id">
           <template #content>
             <Button
               id="action-button" 
