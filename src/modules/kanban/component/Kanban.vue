@@ -164,13 +164,6 @@ const boardSelected: Ref<BoardDTO> = ref({
     tasks: []
 });
 
-function customDropPlaceholder() {
-  return {
-    showOnTop: true, 
-    animationDuration: '0.2s', 
-  };
-}
-
 function getChildPayload(index: number) {
   return {
     index

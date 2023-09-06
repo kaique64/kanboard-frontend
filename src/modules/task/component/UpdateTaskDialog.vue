@@ -17,9 +17,9 @@
 import { ref } from 'vue';
 import DialogTemplate from '../../../common/component/dialog/DialogTemplate.vue'
 import { TaskService } from '../../task/service/TaskService';
-import { useQuasar } from 'quasar';
 import TaskForm from '../../task/component/TaskForm.vue';
 import { TaskFormDTO } from '../../task/types/dtos/TaskFormDTO';
+import { NotifyService } from '../../../common/service/NotifyService';
 
 interface IProps {
     modelValue: any;
@@ -34,8 +34,8 @@ const props = defineProps<IProps>()
 const title = ref(props.title);
 const taskId = ref(props.taskId);
 const boardId = ref(props.boardId);
-const $q = useQuasar();
 const taskService = TaskService();
+const notifyService = NotifyService();
 
 async function handleUpdateTask(formValues: TaskFormDTO) {
     await updateTask(formValues);
@@ -51,19 +51,9 @@ async function updateTask(formValues: TaskFormDTO) {
   const taskUpdated = await taskService.updateTask(task, taskId.value, boardId.value);
 
   if (taskUpdated) {
-    $q.notify({
-        message: 'Task updated successfully!',
-        type: 'positive',
-        color: 'green-5',
-        position: 'top-right'
-    });
+    notifyService.showSuccessMessage('Task updated successfully');
   } else {
-    $q.notify({
-        message: 'Internal server error!',
-        type: 'negative',
-        color: 'red-5',
-        position: 'top-right'
-    });
+    notifyService.showErrorMessage('Internal server error!');
   }
 }
 

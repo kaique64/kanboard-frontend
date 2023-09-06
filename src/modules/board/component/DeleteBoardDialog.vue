@@ -35,9 +35,9 @@
 import { ref, computed } from 'vue';
 import DialogTemplate from '../../../common/component/dialog/DialogTemplate.vue'
 import { BoardService } from '../../board/service/BoardService';
-import { useQuasar } from 'quasar';
 import Button from '../../../common/component/button/Button.vue';
 import BoardStore from '../store/BoardStore';
+import { NotifyService } from '../../../common/service/NotifyService';
 
 interface IProps {
     modelValue: any;
@@ -51,8 +51,8 @@ const title = ref(props.title);
 const boardId = computed(() => props.boardId);
 const boardStore = BoardStore();
 const boardIsLoading = computed(() => boardStore.getLoading());
-const $q = useQuasar();
 const boardService = BoardService();
+const notifyService = NotifyService();
 
 async function handleDeleteBoard() {
     await deleteBoard();
@@ -63,19 +63,9 @@ async function deleteBoard() {
   const boardDeleted = await boardService.deleteBoard(boardId.value);
 
   if (boardDeleted) {
-    $q.notify({
-        message: 'Board deleted successfully!',
-        type: 'positive',
-        color: 'green-5',
-        position: 'top-right'
-    });
+    notifyService.showSuccessMessage('Board deleted successfully');
   } else {
-    $q.notify({
-        message: 'Internal server error!',
-        type: 'negative',
-        color: 'red-5',
-        position: 'top-right'
-    });
+    notifyService.showErrorMessage('Internal server error!');
   }
 }
 

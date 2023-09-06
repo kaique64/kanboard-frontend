@@ -35,9 +35,9 @@
 import { ref, computed } from 'vue';
 import DialogTemplate from '../../../common/component/dialog/DialogTemplate.vue'
 import { TaskService } from '../../task/service/TaskService';
-import { useQuasar } from 'quasar';
 import Button from '../../../common/component/button/Button.vue';
 import TaskStore from '../store/TaskStore';
+import { NotifyService } from '../../../common/service/NotifyService';
 
 interface IProps {
     modelValue: any;
@@ -51,8 +51,8 @@ const title = ref(props.title);
 const taskId = ref(props.taskId);
 const taskStore = TaskStore();
 const taskIsLoading = computed(() => taskStore.getLoading());
-const $q = useQuasar();
 const taskService = TaskService();
+const notifyService = NotifyService();
 
 async function handleDeleteTask() {
     await deleteTask();
@@ -63,19 +63,9 @@ async function deleteTask() {
   const taskDeleted = await taskService.deleteTask(taskId.value);
 
   if (taskDeleted) {
-    $q.notify({
-        message: 'Task deleted successfully!',
-        type: 'positive',
-        color: 'green-5',
-        position: 'top-right'
-    });
+    notifyService.showSuccessMessage('Task deleted successfully');
   } else {
-    $q.notify({
-        message: 'Internal server error!',
-        type: 'negative',
-        color: 'red-5',
-        position: 'top-right'
-    });
+    notifyService.showErrorMessage('Internal server error!');
   }
 }
 

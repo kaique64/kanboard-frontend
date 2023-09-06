@@ -3,9 +3,11 @@ import { defineStore } from "pinia";
 import { BoardDTO } from "../types/dtos/BoardDTO";
 import { RestService } from "../../../common/service/integration/RestService";
 import { BoardFormDTO } from "../types/dtos/BoardFormDTO";
+import { NotifyService } from "../../../common/service/NotifyService";
 
 const BoardStore = defineStore('BoardStore', () => {
     const restService = new RestService();
+    const notifyService = NotifyService();
     const boards: Ref<BoardDTO[]> = ref([]);
     const loading = ref(false);
 
@@ -48,6 +50,8 @@ const BoardStore = defineStore('BoardStore', () => {
         
         if (boardsData) {
             setBoards(boardsData);
+        } else {
+            notifyService.showErrorMessage('Sorry about it, we are having server instability!');
         }
     }
 

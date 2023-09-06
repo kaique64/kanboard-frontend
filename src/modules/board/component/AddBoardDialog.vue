@@ -13,11 +13,11 @@
 </template>
 
 <script setup lang="ts">
-import { useQuasar } from 'quasar';
 import DialogTemplate from '../../../common/component/dialog/DialogTemplate.vue'
 import { BoardFormDTO } from '../types/dtos/BoardFormDTO';
 import BoardForm from './/BoardForm.vue';
 import { BoardService } from '../service/BoardService';
+import { NotifyService } from '../../../common/service/NotifyService';
 
 interface IProps {
     modelValue: any;
@@ -27,7 +27,7 @@ interface IProps {
 const emit = defineEmits(['close', 'cancel', 'onAdd']);
 const props = defineProps<IProps>();
 const boardService = BoardService();
-const $q = useQuasar();
+const notifyService = NotifyService();
 
 async function handleAddTask(formValues: BoardFormDTO, resetForm: () => void) {
     await addTask(formValues);
@@ -43,19 +43,9 @@ async function addTask(formValues: BoardFormDTO) {
   const boardCreated = await boardService.createBoard(board);
 
   if (boardCreated) {
-    $q.notify({
-        message: 'Board created successfully!',
-        type: 'positive',
-        color: 'green-5',
-        position: 'top-right'
-    })
+    notifyService.showSuccessMessage('Board created successfully');
   } else {
-    $q.notify({
-        message: 'Internal server error!',
-        type: 'negative',
-        color: 'red-5',
-        position: 'top-right'
-    });
+    notifyService.showErrorMessage('Internal server error!');
   }
 }
 </script>

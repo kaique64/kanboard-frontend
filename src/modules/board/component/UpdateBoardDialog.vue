@@ -17,12 +17,12 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { useQuasar } from 'quasar';
 import DialogTemplate from '../../../common/component/dialog/DialogTemplate.vue'
 import { BoardFormDTO } from '../types/dtos/BoardFormDTO';
 import BoardForm from './/BoardForm.vue';
 import { BoardService } from '../service/BoardService';
 import { BoardDTO } from '../types/dtos/BoardDTO';
+import { NotifyService } from '../../../common/service/NotifyService';
 
 interface IProps {
     modelValue: any;
@@ -34,7 +34,7 @@ const emit = defineEmits(['close', 'cancel', 'onAdd']);
 const props = defineProps<IProps>();
 const boardForm = computed(() => props.boardForm);
 const boardService = BoardService();
-const $q = useQuasar();
+const notifyService = NotifyService();
 
 async function handleUpdateTask(formValues: BoardFormDTO, baordId: number, resetForm: () => void) {
     await updateTask(formValues, baordId);
@@ -50,19 +50,9 @@ async function updateTask(formValues: BoardFormDTO, baordId: number) {
   const boardCreated = await boardService.updateBoard(baordId, board);
 
   if (boardCreated) {
-    $q.notify({
-        message: 'Board updated successfully!',
-        type: 'positive',
-        color: 'green-5',
-        position: 'top-right'
-    })
+    notifyService.showSuccessMessage('Board updated successfully');
   } else {
-    $q.notify({
-        message: 'Internal server error!',
-        type: 'negative',
-        color: 'red-5',
-        position: 'top-right'
-    });
+    notifyService.showErrorMessage('Internal server error!');
   }
 }
 </script>
