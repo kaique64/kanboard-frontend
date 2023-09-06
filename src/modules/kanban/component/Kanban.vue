@@ -1,6 +1,18 @@
 <template>
   <q-page-container style="height: 100%; padding-top: 100px;" class="flex items-center justify-center q-pr-lg q-pl-lg bg-white">
     <q-page class="row items-start justify-center bg-white full-height">
+      <div class="q-ma-md" style="max-height: 25px;">
+        <Button
+          id="add-board-btn"
+          icon="mdi-plus"
+          label="Add new board"
+          flat
+          no-caps
+          class="text-capitalize"
+          color="grey-8" 
+          @click="() => addBoardDialog = true"
+        />
+      </div>
       <div v-if="boardIsLoading" class="flex items-center justify-center full-width window-height loading">
         <q-spinner
           color="primary"
@@ -88,18 +100,6 @@
             </Container>
           </template>
         </Board>
-      </div>
-      <div class="q-ma-md" style="max-height: 25px;">
-        <Button
-          id="add-board-btn"
-          icon="mdi-plus"
-          label="Add new board"
-          flat
-          no-caps
-          class="text-capitalize"
-          color="grey-8" 
-          @click="() => addBoardDialog = true"
-        />
       </div>
     </q-page>
   </q-page-container>
